@@ -59,11 +59,35 @@ export default function SignUpView() {
         name: data.name,
         email: data.email,
         password: data.password,
+        callbackURL: "/"
       },
       {
         onSuccess: () => {
           setPending(false);
           router.push("/");
+          
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          const message = error?.error?.message || error?.message || "Something went wrong";
+          setError(message);
+        },
+      }
+    );
+  };
+
+  const onSocial = (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
+
+    authClient.signIn.social(
+      {
+        provider: provider, 
+        callbackURL: "/"
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
         },
         onError: ({ error }) => {
           setPending(false);
@@ -178,10 +202,17 @@ export default function SignUpView() {
                 <div className="flex-grow border-t border-border"></div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" type="button" className="w-full" disabled={pending}>
+                <Button 
+                variant="outline" 
+                type="button" 
+                className="w-full" 
+                disabled={pending}
+                onClick={() => onSocial("google") }
+                >
                   Google
                 </Button>
-                <Button variant="outline" type="button" className="w-full" disabled={pending}>
+                <Button variant="outline" type="button" className="w-full" disabled={pending}
+                onClick={() => onSocial("github") }>
                   Github
                 </Button>
               </div>
