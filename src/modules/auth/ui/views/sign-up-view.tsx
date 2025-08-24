@@ -226,7 +226,7 @@ export default function SignUpView() {
           </form>
         </Form>
         {/* Right side: logo, green background */}
-        <div className="bg-gradient-to-br from-green-700 to-green-900 flex flex-col items-center justify-center rounded-r-2xl p-12 w-full">
+        <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gap-y-4 items-center justify-center">
           <img src="/logo.svg" alt="Logo" className="h-[92px] w-[92px]" />
           <p className="text-2xl font-semibold text-white mt-6">Meet.AI</p>
         </div>
