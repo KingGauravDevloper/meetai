@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -82,7 +83,7 @@ export const DashboardUserButton = () => {
               onClick={onLogout}
             >
               <LogOutIcon className="size-4 text-black" />
-              Logout gt
+              Logout 
             </Button>
           </DrawerFooter>
         </DrawerContent>
