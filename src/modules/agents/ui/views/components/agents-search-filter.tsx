@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+ import { Input } from "@/components/ui/input";
 
 import { useAgentsFilters } from "@/modules/agents/hooks/use-agent-filters";
 import { SearchIcon } from "lucide-react";
