@@ -6,11 +6,11 @@ import { LoadingState } from "@/components/loading-state";
 import { ErrorState } from "@/components/error-state";
 import { EmptyState } from "@/components/empty-state";
 import { columns } from "./components/columns";
-import { DataTable } from "./components/data-table";
 import { useAgentsFilters } from "../../hooks/use-agent-filters";
 import { DataPagination } from "./components/data-pagination";
 import { useRouter } from "next/router";
 import { Row } from "react-day-picker";
+import { DataTable } from "@/components/data-table";
 
 
 

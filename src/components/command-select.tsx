@@ -70,7 +70,7 @@ interface Props{
                     <CommandItem
                       key={option.id}
                       onSelect={() => {
-                        onSelect(option.value)
+                        onSelect?.(option.value)
                         setOpen(false);
                       }}
                     >

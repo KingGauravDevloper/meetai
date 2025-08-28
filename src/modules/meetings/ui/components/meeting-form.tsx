@@ -23,7 +23,7 @@ import {
 
 import { MeetingGetOne } from "../../types";
 import { meetingsInsertSchema } from "../../schemas";
-import { Children, useState } from "react";
+import { useState } from "react";
 import { NewAgentDialog } from "@/modules/agents/ui/views/components/new-agent-dialog";
 
 interface MeetingFormProps {
@@ -136,7 +136,7 @@ return (
                        options={(agents.data?.items ?? []).map((agent) => ({
                           id: agent.id,
                           value: agent.id,
-                          Children: (
+                          children: (
                             <div className="flex items-center gap-x-2">
                                 <GeneratedAvatar 
                                    seed={agent.name}
