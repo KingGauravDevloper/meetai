@@ -3,14 +3,12 @@
 import { ErrorState } from "@/components/error-state";
 import { GeneratedAvatar } from "@/components/generated-avatar";
 import { LoadingState } from "@/components/loading-state";
-import { agents } from "@/db/schema";
 import { useTRPC } from "@/trpc/client";
-import { useMutation, useQueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { VideoIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AgentIdViewHeader } from "./components/agent-id-view-header";
 import { useRouter } from "next/navigation";
-import { error } from "console";
 import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useState } from "react";
@@ -27,7 +25,7 @@ export const AgentIdView = ({ agentId }: Props) => {
 
     const [UpdateAgentDialogOpen, setUpdateAgentDialogOpen] = useState(false);
 
-    const { data } = useSuspenseQueries(trpc.agents.getOne.queryOptions({ id: agentId }));
+    const { data } = useSuspenseQuery(trpc.agents.getOne.queryOptions({ id: agentId }));
 
     const removeAgent = useMutation(
       trpc.agents.remove.mutationOptions({
@@ -66,7 +64,7 @@ export const AgentIdView = ({ agentId }: Props) => {
            <AgentIdViewHeader
               agentId={agentId}
               agentName={data.name}
-              onEdit={() => setUpdateAgentDialogOpen}
+              onEdit={() => setUpdateAgentDialogOpen(true)}
               onRemove={handleRemoveAgent}
             />
         <div className="bg-white rounded-lg border">
@@ -88,7 +86,7 @@ export const AgentIdView = ({ agentId }: Props) => {
              </Badge>
              <div className="flex flex-col gap-y-4">
                   <p className="text-lg font-medium">Instructions</p>
-                  <p className="text-neutral-800">{data.Instructions}</p>
+                  <p className="text-neutral-800">{data.instructions}</p>
              </div>
              </div>
            </div>
