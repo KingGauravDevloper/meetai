@@ -30,10 +30,13 @@ const Page = async ({ searchParams }: Props) => {
     ...filters,
   }));
 
+  const dehydratedState = dehydrate(queryClient);
+  const sanitizedState = JSON.parse(JSON.stringify(dehydratedState));
+
   return (
     <>
       <AgentsListHeader />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={sanitizedState}>
         <Suspense fallback={<AgentsViewLoading />}>
           <ErrorBoundary fallback={<AgentsViewError />}>
             <AgentsView />

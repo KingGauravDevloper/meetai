@@ -15,6 +15,12 @@ export const MeetingsListHeader = () => {
     const [filters, setFilters] = useMeetingsFilters();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+    const isAnyFilterModified = 
+        filters.status !== null ||
+        filters.agentId !== "" ||  // This matches your AgentIdFilters usage
+        filters.search !== "" ||
+        filters.page !== 1;
+
     const onClearFilters = () => {
         setFilters({
             status: null,
