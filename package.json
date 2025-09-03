@@ -82,6 +82,8 @@
     "recharts": "^2.15.4",
     "server-only": "^0.0.1",
     "sonner": "^2.0.7",
+    "stream-chat": "^9.19.0",
+    "stream-chat-react": "^13.6.1",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
     "zod": "^3.25.7"
@@ -93,6 +95,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-highlight-words": "^0.20.0",
     "drizzle-kit": "^0.31.1",
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
