@@ -16,6 +16,8 @@ import Link from "next/link";
 import Image from "next/image"
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+
+import { DashboardTrial } from "./dashboard-trial";
 import { DashboardUserButton } from "./dashboard-user-button"
 
 const firstSection = [
@@ -104,7 +106,8 @@ export const DashBoardSideBar = () => {
       </SidebarContent>
 
       <SidebarFooter className="text-white">
-        <DashboardUserButton />
+          <DashboardTrial />
+          <DashboardUserButton />
       </SidebarFooter>
     </Sidebar>
   )

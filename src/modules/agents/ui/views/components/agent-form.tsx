@@ -21,6 +21,7 @@ import {
 
 import { AgentGetOne } from "@/modules/agents/types";
 import { agentsInsertSchema } from "@/modules/agents/schemas";
+import { useRouter } from "next/navigation";
 
 interface AgentFormProps {
     onSucess?: () => void;
@@ -34,6 +35,7 @@ export const AgentForm = ({
     initialValues,
 }: AgentFormProps) => {
    const trpc = useTRPC();
+   const router = useRouter();
    const queryClient = useQueryClient();
 
    const createAgent = useMutation(
@@ -43,12 +45,18 @@ export const AgentForm = ({
                 trpc.agents.getMany.queryOptions({}),
             );
 
-            //Space for free tier update 
+            await queryClient.invalidateQueries(
+                trpc.premium.getFreeUsage.queryOptions(),
+            );
 
             onSucess?.();
         },
         onError: (error) => {
             toast.error(error.message);
+
+          if (error.data?.code === "FORBIDDEN"){
+              router.push("/upgrade");
+          }
         },
     }),
    );
