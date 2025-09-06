@@ -2,12 +2,8 @@
 
 import { LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-
-import { useTRPC } from "@/trpc/client";
-
+import { trpc } from "@/trpc/client";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
-
 import {
   Call,
   CallingState,
@@ -32,41 +28,57 @@ export const CallConnect = ({
   userName,
   userImage,
 }: Props) => {
-  const trpc = useTRPC();
-  const { mutateAsync: generateToken } = useMutation(
-    trpc.meetings.generateToken.mutationOptions()
-  );
+  
+  // FIX THE TYPO: useMutation NOT uselWutation
+  const { mutateAsync: generateVideoToken } = trpc.meetings.generateVideoToken.useMutation();
 
   const [client, setClient] = useState<StreamVideoClient>();
+  
   useEffect(() => {
-    const _client = new StreamVideoClient({
-      apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
-      user: {
-        id: userId,
-        name: userName,
-        image: userImage,
-      },
-      tokenProvider: generateToken,
-    });
+    const initializeClient = async () => {
+      try {
+        // Create token provider function
+        const tokenProvider = async () => {
+          console.log("Generating video token...");
+          const token = await generateVideoToken();
+          console.log("Token generated successfully");
+          return token;
+        };
 
-    setClient(_client);
+        const _client = new StreamVideoClient({
+          apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
+          user: {
+            id: userId,
+            name: userName,
+            image: userImage,
+          },
+          tokenProvider,
+        });
+
+        setClient(_client);
+      } catch (error) {
+        console.error("Failed to initialize Stream client:", error);
+      }
+    };
+
+    initializeClient();
 
     return () => {
-      _client.disconnectUser();
-      setClient(undefined);
+      if (client) {
+        client.disconnectUser();
+        setClient(undefined);
+      }
     };
-  }, [userId, userName, userImage, generateToken]);
+  }, [userId, userName, userImage, generateVideoToken]);
 
   const [call, setCall] = useState<Call>();
+  
   useEffect(() => {
     if (!client) return;
 
     const _call = client.call("default", meetingId);
-
-    // Disable camera and microphone initially if desired
     _call.camera.disable();
     _call.microphone.disable();
-
     setCall(_call);
 
     return () => {
@@ -78,7 +90,6 @@ export const CallConnect = ({
     };
   }, [client, meetingId]);
 
-  // Show loading while initializing client and call
   if (!client || !call) {
     return (
       <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">

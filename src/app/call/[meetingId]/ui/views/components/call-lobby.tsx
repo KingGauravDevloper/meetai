@@ -17,6 +17,7 @@ import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 interface Props {
   onJoin: () => void;
+  isJoining?: boolean;
 }
 
 const DefaultVideoPlaceholder = () => {
@@ -47,13 +48,12 @@ const AllowBrowserPermissions = () => {
   );
 };
 
-export const CallLobby = ({ onJoin }: Props) => {
+export const CallLobby = ({ onJoin, isJoining = false }: Props) => {
   const { useHasPermissions } = useCallStateHooks();
 
   // Check mic and camera permissions
   const hasMicPermission = useHasPermissions(OwnCapability.SEND_AUDIO);
   const hasCameraPermission = useHasPermissions(OwnCapability.SEND_VIDEO);
-
   const hasBrowserMediaPermission = hasMicPermission && hasCameraPermission;
 
   return (
@@ -80,7 +80,9 @@ export const CallLobby = ({ onJoin }: Props) => {
             <Button asChild variant="ghost">
               <Link href="/meetings">Cancel</Link>
             </Button>
-            <Button onClick={onJoin}>Join</Button>
+            <Button onClick={onJoin} disabled={isJoining}>
+              {isJoining ? "Joining..." : "Join"}
+            </Button>
           </div>
         </div>
       </div>
